@@ -133,6 +133,7 @@ h2 {
 .main h3 a { color: var(--ink); }
 .main h3 a:hover { color: var(--link); }
 .main p { margin: .2rem 0 0; max-width: 40rem; }
+.main code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .88em; background: var(--bg-soft); padding: .05em .35em; border-radius: 4px; }
 .tag {
   display: inline-block; margin-left: .35rem; padding: 0 .45rem; vertical-align: .12em;
   font-size: .75rem; font-weight: 500; line-height: 1.5; color: var(--muted);
@@ -164,7 +165,7 @@ footer { border-top: 1px solid var(--line); padding: 1.5rem 0 3rem; color: var(-
   <main>
     <section class="hero" aria-labelledby="titre">
       <h1 id="titre">Inventaire des outils de vibe&#8209;coding</h1>
-      <p class="lead">Deux listes d'outils pour coder avec une IA, lues côte à côte : un post X du 9 octobre 2026 et le dépôt GitHub awesome-vibecoding. Chaque point ci-dessous est un outil.</p>
+      <p class="lead">Deux listes d'outils pour coder avec une IA, lues côte à côte : un post X du 9 octobre 2026 et le dépôt GitHub awesome-vibecoding. Chaque point ci-dessous est un outil de l'une des deux listes.</p>
       <div class="viz">
         <svg viewBox="0 0 1000 430" role="group" aria-label="68 outils répartis en deux amas qui ne se recoupent pas : 25 pour le post X, 43 pour awesome-vibecoding">
 <a class="dot" href="#r-a-1" data-label="scrollslide.co, Prompts et code (post X)" style="--i:0" aria-label="scrollslide.co, Prompts et code (post X)"><circle cx="236.2" cy="215.0" r="11" fill="#F2A81D"/></a>
@@ -251,7 +252,7 @@ footer { border-top: 1px solid var(--line); padding: 1.5rem 0 3rem; color: var(-
       <div class="findings-grid">
         <article>
           <h3>Aucun outil en commun</h3>
-          <p>Aucun des 25 noms du post n'apparaît dans le dépôt, ni dans son README ni dans son catalogue étendu.</p>
+          <p>Aucun des 25 noms du post n'apparaît dans le dépôt, ni dans son README ni dans son catalogue étendu. L'outil ajouté plus bas, Impeccable, ne figure dans aucune des deux listes.</p>
         </article>
         <article>
           <h3>Deux sujets différents</h3>
@@ -272,9 +273,10 @@ footer { border-top: 1px solid var(--line); padding: 1.5rem 0 3rem; color: var(-
       <div class="tb-row">
         <label class="search"><span class="sr">Chercher un outil</span><input id="q" type="search" placeholder="Chercher un outil ou une catégorie" autocomplete="off"></label>
         <div id="sources" class="seg" role="group" aria-label="Source">
-          <button type="button" data-value="all" aria-pressed="true">Les deux</button>
+          <button type="button" data-value="all" aria-pressed="true">Toutes</button>
           <button type="button" data-value="a" aria-pressed="false">Post X</button>
           <button type="button" data-value="b" aria-pressed="false">awesome-vibecoding</button>
+          <button type="button" data-value="c" aria-pressed="false">Ajout</button>
         </div>
       </div>
       <div id="chips" class="chips" role="group" aria-label="Catégories"></div>
@@ -368,6 +370,16 @@ footer { border-top: 1px solid var(--line); padding: 1.5rem 0 3rem; color: var(-
         </ul>
       </section>
 
+      <section class="src" id="src-c" data-source="c" aria-labelledby="h-c">
+        <div class="src-head">
+          <h2 id="h-c">Ajout<span class="n">1</span></h2>
+          <p>Outil ajouté après la comparaison. Il ne vient ni du post X ni du dépôt awesome-vibecoding. Description tirée de sa page GitHub le 12 octobre 2026, sans l'avoir essayé.</p>
+        </div>
+        <ul class="rows">
+<li class="row" id="r-c-1" data-source="c" data-cat="Design et interface" data-tone="#7DBA2F" style="--tone:#7DBA2F"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/pbakaus/impeccable" rel="noopener noreferrer">Impeccable</a> <span class="tag">Skill</span> <span class="tag">CLI</span></h3><p>Donne aux agents de code des repères de design pour éviter les interfaces génériques. Se pose comme skill dans Claude Code, Cursor, Codex CLI, Gemini CLI et d'autres. Sa commande <code>npx impeccable detect</code> repère des défauts de design sans modèle ni clé d'API.</p></div><div class="meta"><span class="cat">Design et interface</span><span>Open source, licence Apache-2.0</span><span class="faint">Ajouté le 12/10/2026</span></div></li>
+        </ul>
+      </section>
+
       <div class="empty" id="empty" hidden>
         <h2>Aucun résultat</h2>
         <p>Aucun outil ne correspond à cette recherche. Effacez le texte ou choisissez une autre catégorie.</p>
@@ -379,7 +391,7 @@ footer { border-top: 1px solid var(--line); padding: 1.5rem 0 3rem; color: var(-
       <h2 id="limites">Limites</h2>
       <ul>
         <li>La capture du post est longue et petite : deux adresses (Liquid Glass et Circle Loaders) n'ont pas pu être lues.</li>
-        <li>Aucun outil des deux listes n'a été essayé pour cette page.</li>
+        <li>Aucun outil de cette page, ajout compris, n'a été essayé.</li>
         <li>Le dépôt contient aussi des guides et des articles de référence, que je n'ai pas repris ici parce qu'il ne s'agit pas d'outils.</li>
       </ul>
     </section>
@@ -442,7 +454,7 @@ footer { border-top: 1px solid var(--line); padding: 1.5rem 0 3rem; color: var(-
     catsFor(state.source).forEach(function (o) { addChip(o.cat, o.cat, o.tone); });
   }
   function apply() {
-    var shown = 0, per = { a: 0, b: 0 };
+    var shown = 0, per = { a: 0, b: 0, c: 0 };
     rows.forEach(function (r) {
       var ok = (state.source === 'all' || r.dataset.source === state.source) &&
                (state.cat === 'all' || r.dataset.cat === state.cat) &&
