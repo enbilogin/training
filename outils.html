@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inventaire des outils de vibe-coding</title>
+<meta name="description" content="Deux listes d'outils pour coder avec une IA, comparées : un post X du 9 octobre 2026 et le dépôt GitHub awesome-vibecoding.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#EEF1F6; --bg-soft:#E2E8F2; --ink:#121722; --muted:#4F596D; --line:#C6CEDD; --link:#1E40AF;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:#0E1320; --bg-soft:#171E2E; --ink:#E9EDF6; --muted:#9AA5BA; --line:#2A3347; --link:#8FB0FF;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:#0E1320; --bg-soft:#171E2E; --ink:#E9EDF6; --muted:#9AA5BA; --line:#2A3347; --link:#8FB0FF;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 400 1.0625rem/1.5 "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-variation-settings: "opsz" 14;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 72rem; margin: 0 auto; padding: 0 1.25rem; }
+a { color: var(--link); text-underline-offset: .18em; }
+:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; border-radius: 3px; }
+.skip { position: absolute; left: -999px; top: 0; background: var(--ink); color: var(--bg); padding: .5rem .8rem; z-index: 20; }
+.skip:focus { left: 0; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.top { display: flex; justify-content: flex-end; padding-top: 1rem; }
+.ghost {
+  font: inherit; font-size: .95rem; color: var(--muted); background: none; cursor: pointer;
+  border: 1px solid var(--line); border-radius: 999px; padding: .3rem .85rem;
+}
+.ghost:hover { color: var(--ink); border-color: var(--ink); }
+
+/* Ouverture */
+h1 {
+  margin: 1rem 0 .75rem; max-width: 16ch;
+  font-size: clamp(2.6rem, 8.5vw, 6.25rem); line-height: .92; letter-spacing: -.02em; font-weight: 800;
+  font-variation-settings: "opsz" 96, "wdth" 75;
+}
+.lead { max-width: 38rem; margin: 0 0 1.5rem; font-size: 1.2rem; color: var(--muted); }
+.viz { position: relative; }
+.viz svg { display: block; width: 100%; height: auto; overflow: visible; }
+.gap-label {
+  position: absolute; left: 47.6%; top: 50%; width: 19%; transform: translate(-50%, -50%);
+  text-align: center; font-weight: 700; line-height: 1.15; letter-spacing: -.01em;
+  font-size: clamp(.78rem, 2.4vw, 1.45rem); font-variation-settings: "opsz" 40, "wdth" 85;
+  pointer-events: none;
+}
+.legend {
+  display: grid; grid-template-columns: 43% 1fr 43%; margin-top: .75rem; text-align: center; font-weight: 600;
+}
+.legend span { font-size: clamp(.8rem, 2.4vw, 1.05rem); }
+.legend small { display: block; font-weight: 400; color: var(--muted); font-size: .85em; }
+.caption { min-height: 1.6em; margin: .75rem 0 0; color: var(--muted); font-size: .95rem; }
+.dot circle { transform-box: fill-box; transform-origin: center; transition: transform .15s ease; cursor: pointer; }
+.dot:hover circle, .dot:focus-visible circle { transform: scale(1.55); }
+.dot:focus-visible { outline: none; }
+.dot:focus-visible circle { stroke: var(--ink); stroke-width: 3; }
+@media (prefers-reduced-motion: no-preference) {
+  .dot circle { animation: pop .5s cubic-bezier(.2,.9,.3,1.25) backwards; animation-delay: calc(var(--i) * 22ms); }
+  .gap-label { animation: show .6s ease 1.4s backwards; }
+}
+@keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes show { from { opacity: 0; } to { opacity: 1; } }
+
+/* Constats */
+.findings { margin: 4.5rem 0 3rem; }
+h2 {
+  margin: 0 0 1.25rem; font-size: clamp(1.8rem, 4.5vw, 2.6rem); line-height: 1; letter-spacing: -.01em; font-weight: 800;
+  font-variation-settings: "opsz" 72, "wdth" 80;
+}
+.findings-grid { display: grid; gap: 2rem 3rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+.findings h3 { margin: 0 0 .35rem; font-size: 1.2rem; line-height: 1.2; font-weight: 700; font-variation-settings: "opsz" 24, "wdth" 90; }
+.findings p { margin: 0; max-width: 34rem; color: var(--muted); }
+
+/* Barre d'outils */
+.toolbar { display: none; }
+.js .toolbar {
+  display: block; position: sticky; top: 0; z-index: 10; padding: .75rem 0 .5rem;
+  background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.tb-row { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+.search { flex: 1 1 16rem; }
+.search input {
+  width: 100%; font: inherit; color: var(--ink); background: var(--bg-soft);
+  border: 1px solid var(--line); border-radius: 10px; padding: .55rem .8rem;
+}
+.search input::placeholder { color: var(--muted); }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.seg button, .chip {
+  font: inherit; font-size: .95rem; color: var(--ink); background: none; cursor: pointer; border: 0;
+}
+.seg button { padding: .55rem .9rem; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"], .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.seg button:hover:not([aria-pressed="true"]), .chip:hover:not([aria-pressed="true"]) { background: var(--bg-soft); }
+.chips { display: flex; gap: .45rem; padding: .6rem 0 .2rem; overflow-x: auto; scrollbar-width: thin; }
+@media (min-width: 720px) { .chips { flex-wrap: wrap; overflow: visible; } }
+.chip { display: inline-flex; align-items: center; gap: .45rem; white-space: nowrap; border: 1px solid var(--line); border-radius: 999px; padding: .28rem .8rem; }
+.swatch { width: .65rem; height: .65rem; border-radius: 50%; }
+.count { margin: .35rem 0 0; font-size: .9rem; color: var(--muted); }
+
+/* Listes */
+.src { padding-top: 3.5rem; }
+.src-head p { max-width: 40rem; margin: 0 0 1.5rem; color: var(--muted); }
+.src-head h2 span { font-weight: 400; color: var(--muted); font-size: .6em; margin-left: .35rem; }
+.rows { list-style: none; margin: 0; padding: 0; }
+.row {
+  display: grid; grid-template-columns: .8rem minmax(0, 1fr); column-gap: 1rem; row-gap: .5rem;
+  padding: 1.1rem .5rem; border-top: 1px solid var(--line);
+  transition: background-color .4s ease;
+}
+.row:last-child { border-bottom: 1px solid var(--line); }
+.row.flash { background: color-mix(in srgb, var(--tone) 20%, transparent); }
+.pip { width: .8rem; height: .8rem; margin-top: .5rem; border-radius: 50%; background: var(--tone); }
+.main h3 { margin: 0; font-size: 1.3rem; line-height: 1.25; font-weight: 700; font-variation-settings: "opsz" 28, "wdth" 90; }
+.main h3 a { color: var(--ink); }
+.main h3 a:hover { color: var(--link); }
+.main p { margin: .2rem 0 0; max-width: 40rem; }
+.tag {
+  display: inline-block; margin-left: .35rem; padding: 0 .45rem; vertical-align: .12em;
+  font-size: .75rem; font-weight: 500; line-height: 1.5; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 5px;
+}
+.meta { grid-column: 2; display: flex; flex-direction: column; gap: .1rem; font-size: .92rem; color: var(--muted); }
+.meta .cat { color: var(--ink); font-weight: 600; }
+.meta .faint { font-size: .85rem; }
+@media (min-width: 760px) {
+  .row { grid-template-columns: .8rem minmax(0, 1fr) 16rem; }
+  .meta { grid-column: 3; grid-row: 1; }
+}
+.empty { padding: 3rem 0; }
+.empty p { margin: 0 0 1rem; max-width: 30rem; }
+.empty button { font: inherit; cursor: pointer; background: var(--ink); color: var(--bg); border: 0; border-radius: 10px; padding: .55rem 1rem; }
+
+/* Limites */
+.limits { margin: 5rem 0 3rem; }
+.limits ul { margin: 0; padding-left: 1.2rem; max-width: 40rem; color: var(--muted); }
+.limits li { margin: .4rem 0; }
+footer { border-top: 1px solid var(--line); padding: 1.5rem 0 3rem; color: var(--muted); font-size: .92rem; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .row { transition: none; } .dot circle { transition: none; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#liste">Aller à la liste des outils</a>
+<div class="wrap">
+  <header class="top"><button id="theme" class="ghost" type="button">Changer de thème</button></header>
+  <main>
+    <section class="hero" aria-labelledby="titre">
+      <h1 id="titre">Inventaire des outils de vibe&#8209;coding</h1>
+      <p class="lead">Deux listes d'outils pour coder avec une IA, lues côte à côte : un post X du 9 octobre 2026 et le dépôt GitHub awesome-vibecoding. Chaque point ci-dessous est un outil.</p>
+      <div class="viz">
+        <svg viewBox="0 0 1000 430" role="group" aria-label="68 outils répartis en deux amas qui ne se recoupent pas : 25 pour le post X, 43 pour awesome-vibecoding">
+<a class="dot" href="#r-a-1" data-label="scrollslide.co, Prompts et code (post X)" style="--i:0" aria-label="scrollslide.co, Prompts et code (post X)"><circle cx="236.2" cy="215.0" r="11" fill="#F2A81D"/></a>
+<a class="dot" href="#r-a-2" data-label="Minimal Gallery, Inspiration (post X)" style="--i:1" aria-label="Minimal Gallery, Inspiration (post X)"><circle cx="187.9" cy="239.8" r="11" fill="#D6245B"/></a>
+<a class="dot" href="#r-a-3" data-label="Godly, Inspiration (post X)" style="--i:2" aria-label="Godly, Inspiration (post X)"><circle cx="219.1" cy="167.7" r="11" fill="#D6245B"/></a>
+<a class="dot" href="#r-a-4" data-label="Refero Styles, Inspiration (post X)" style="--i:3" aria-label="Refero Styles, Inspiration (post X)"><circle cx="249.1" cy="259.5" r="11" fill="#D6245B"/></a>
+<a class="dot" href="#r-a-5" data-label="Component Gallery, Composants (post X)" style="--i:4" aria-label="Component Gallery, Composants (post X)"><circle cx="152.3" cy="203.9" r="11" fill="#EC4A3A"/></a>
+<a class="dot" href="#r-a-6" data-label="Mobbin, Inspiration (post X)" style="--i:5" aria-label="Mobbin, Inspiration (post X)"><circle cx="274.4" cy="177.2" r="11" fill="#D6245B"/></a>
+<a class="dot" href="#r-a-7" data-label="DESIGNmd, Design systems (post X)" style="--i:6" aria-label="DESIGNmd, Design systems (post X)"><circle cx="195.1" cy="288.9" r="11" fill="#B8328F"/></a>
+<a class="dot" href="#r-a-8" data-label="VibePrompt, Prompts et code (post X)" style="--i:7" aria-label="VibePrompt, Prompts et code (post X)"><circle cx="177.1" cy="142.1" r="11" fill="#F2A81D"/></a>
+<a class="dot" href="#r-a-9" data-label="21st.dev, Composants (post X)" style="--i:8" aria-label="21st.dev, Composants (post X)"><circle cx="297.2" cy="245.0" r="11" fill="#EC4A3A"/></a>
+<a class="dot" href="#r-a-10" data-label="Kinetics, Animation (post X)" style="--i:9" aria-label="Kinetics, Animation (post X)"><circle cx="129.5" cy="250.3" r="11" fill="#F2742C"/></a>
+<a class="dot" href="#r-a-11" data-label="shadcn/ui, Composants (post X)" style="--i:10" aria-label="shadcn/ui, Composants (post X)"><circle cx="256.2" cy="127.0" r="11" fill="#EC4A3A"/></a>
+<a class="dot" href="#r-a-12" data-label="Aceternity UI, Composants (post X)" style="--i:11" aria-label="Aceternity UI, Composants (post X)"><circle cx="245.4" cy="312.1" r="11" fill="#EC4A3A"/></a>
+<a class="dot" href="#r-a-13" data-label="Magic UI, Composants (post X)" style="--i:12" aria-label="Magic UI, Composants (post X)"><circle cx="123.2" cy="161.8" r="11" fill="#EC4A3A"/></a>
+<a class="dot" href="#r-a-14" data-label="Motion Primitives, Animation (post X)" style="--i:13" aria-label="Motion Primitives, Animation (post X)"><circle cx="322.7" cy="191.3" r="11" fill="#F2742C"/></a>
+<a class="dot" href="#r-a-15" data-label="Uiverse, Composants (post X)" style="--i:14" aria-label="Uiverse, Composants (post X)"><circle cx="149.3" cy="308.5" r="11" fill="#EC4A3A"/></a>
+<a class="dot" href="#r-a-16" data-label="Shadcnblocks, Composants (post X)" style="--i:15" aria-label="Shadcnblocks, Composants (post X)"><circle cx="199.8" cy="97.9" r="11" fill="#EC4A3A"/></a>
+<a class="dot" href="#r-a-17" data-label="mapcn, Composants (post X)" style="--i:16" aria-label="mapcn, Composants (post X)"><circle cx="308.2" cy="293.5" r="11" fill="#EC4A3A"/></a>
+<a class="dot" href="#r-a-18" data-label="Awwwards, Inspiration (post X)" style="--i:17" aria-label="Awwwards, Inspiration (post X)"><circle cx="89.6" cy="220.2" r="11" fill="#D6245B"/></a>
+<a class="dot" href="#r-a-19" data-label="Liquid Glass, Animation (post X)" style="--i:18" aria-label="Liquid Glass, Animation (post X)"><circle cx="306.5" cy="124.0" r="11" fill="#F2742C"/></a>
+<a class="dot" href="#r-a-20" data-label="CSS Text Effects, Animation (post X)" style="--i:19" aria-label="CSS Text Effects, Animation (post X)"><circle cx="208.9" cy="347.3" r="11" fill="#F2742C"/></a>
+<a class="dot" href="#r-a-21" data-label="Circle Loaders, Animation (post X)" style="--i:20" aria-label="Circle Loaders, Animation (post X)"><circle cx="128.0" cy="110.7" r="11" fill="#F2742C"/></a>
+<a class="dot" href="#r-a-22" data-label="Gradient Buttons, Composants (post X)" style="--i:21" aria-label="Gradient Buttons, Composants (post X)"><circle cx="352.9" cy="233.5" r="11" fill="#EC4A3A"/></a>
+<a class="dot" href="#r-a-23" data-label="Shaderboy, Animation (post X)" style="--i:22" aria-label="Shaderboy, Animation (post X)"><circle cx="98.2" cy="296.3" r="11" fill="#F2742C"/></a>
+<a class="dot" href="#r-a-24" data-label="3Dicons, Ressources graphiques (post X)" style="--i:23" aria-label="3Dicons, Ressources graphiques (post X)"><circle cx="246.9" cy="73.1" r="11" fill="#E85D9A"/></a>
+<a class="dot" href="#r-a-25" data-label="Anime.js, Animation (post X)" style="--i:24" aria-label="Anime.js, Animation (post X)"><circle cx="288.8" cy="343.8" r="11" fill="#F2742C"/></a>
+<a class="dot" href="#r-b-1" data-label="Aider, Code et édition (awesome-vibecoding)" style="--i:0" aria-label="Aider, Code et édition (awesome-vibecoding)"><circle cx="806.2" cy="215.0" r="11" fill="#1E40AF"/></a>
+<a class="dot" href="#r-b-2" data-label="Claude Code, Code et édition (awesome-vibecoding)" style="--i:1" aria-label="Claude Code, Code et édition (awesome-vibecoding)"><circle cx="757.9" cy="239.8" r="11" fill="#1E40AF"/></a>
+<a class="dot" href="#r-b-3" data-label="Cline, Code et édition (awesome-vibecoding)" style="--i:2" aria-label="Cline, Code et édition (awesome-vibecoding)"><circle cx="789.1" cy="167.7" r="11" fill="#1E40AF"/></a>
+<a class="dot" href="#r-b-4" data-label="Cursor, Code et édition (awesome-vibecoding)" style="--i:3" aria-label="Cursor, Code et édition (awesome-vibecoding)"><circle cx="819.1" cy="259.5" r="11" fill="#1E40AF"/></a>
+<a class="dot" href="#r-b-5" data-label="Gemini CLI, Code et édition (awesome-vibecoding)" style="--i:4" aria-label="Gemini CLI, Code et édition (awesome-vibecoding)"><circle cx="722.3" cy="203.9" r="11" fill="#1E40AF"/></a>
+<a class="dot" href="#r-b-6" data-label="GitHub Copilot, Code et édition (awesome-vibecoding)" style="--i:5" aria-label="GitHub Copilot, Code et édition (awesome-vibecoding)"><circle cx="844.4" cy="177.2" r="11" fill="#1E40AF"/></a>
+<a class="dot" href="#r-b-7" data-label="Goose, Code et édition (awesome-vibecoding)" style="--i:6" aria-label="Goose, Code et édition (awesome-vibecoding)"><circle cx="765.1" cy="288.9" r="11" fill="#1E40AF"/></a>
+<a class="dot" href="#r-b-8" data-label="Kiro, Code et édition (awesome-vibecoding)" style="--i:7" aria-label="Kiro, Code et édition (awesome-vibecoding)"><circle cx="747.1" cy="142.1" r="11" fill="#1E40AF"/></a>
+<a class="dot" href="#r-b-9" data-label="OpenAI Codex CLI, Code et édition (awesome-vibecoding)" style="--i:8" aria-label="OpenAI Codex CLI, Code et édition (awesome-vibecoding)"><circle cx="867.2" cy="245.0" r="11" fill="#1E40AF"/></a>
+<a class="dot" href="#r-b-10" data-label="Pi, Code et édition (awesome-vibecoding)" style="--i:9" aria-label="Pi, Code et édition (awesome-vibecoding)"><circle cx="699.5" cy="250.3" r="11" fill="#1E40AF"/></a>
+<a class="dot" href="#r-b-11" data-label="Bolt.new, Prototypage d&#x27;applications (awesome-vibecoding)" style="--i:10" aria-label="Bolt.new, Prototypage d&#x27;applications (awesome-vibecoding)"><circle cx="826.2" cy="127.0" r="11" fill="#2F6FED"/></a>
+<a class="dot" href="#r-b-12" data-label="Dyad, Prototypage d&#x27;applications (awesome-vibecoding)" style="--i:11" aria-label="Dyad, Prototypage d&#x27;applications (awesome-vibecoding)"><circle cx="815.4" cy="312.1" r="11" fill="#2F6FED"/></a>
+<a class="dot" href="#r-b-13" data-label="Lovable, Prototypage d&#x27;applications (awesome-vibecoding)" style="--i:12" aria-label="Lovable, Prototypage d&#x27;applications (awesome-vibecoding)"><circle cx="693.2" cy="161.8" r="11" fill="#2F6FED"/></a>
+<a class="dot" href="#r-b-14" data-label="Onlook, Prototypage d&#x27;applications (awesome-vibecoding)" style="--i:13" aria-label="Onlook, Prototypage d&#x27;applications (awesome-vibecoding)"><circle cx="892.7" cy="191.3" r="11" fill="#2F6FED"/></a>
+<a class="dot" href="#r-b-15" data-label="Replit, Prototypage d&#x27;applications (awesome-vibecoding)" style="--i:14" aria-label="Replit, Prototypage d&#x27;applications (awesome-vibecoding)"><circle cx="719.3" cy="308.5" r="11" fill="#2F6FED"/></a>
+<a class="dot" href="#r-b-16" data-label="v0, Prototypage d&#x27;applications (awesome-vibecoding)" style="--i:15" aria-label="v0, Prototypage d&#x27;applications (awesome-vibecoding)"><circle cx="769.8" cy="97.9" r="11" fill="#2F6FED"/></a>
+<a class="dot" href="#r-b-17" data-label="Caliber, Contexte et intégrations (awesome-vibecoding)" style="--i:16" aria-label="Caliber, Contexte et intégrations (awesome-vibecoding)"><circle cx="878.2" cy="293.5" r="11" fill="#0EA5C6"/></a>
+<a class="dot" href="#r-b-18" data-label="Context7, Contexte et intégrations (awesome-vibecoding)" style="--i:17" aria-label="Context7, Contexte et intégrations (awesome-vibecoding)"><circle cx="659.6" cy="220.2" r="11" fill="#0EA5C6"/></a>
+<a class="dot" href="#r-b-19" data-label="Filesystem MCP, Contexte et intégrations (awesome-vibecoding)" style="--i:18" aria-label="Filesystem MCP, Contexte et intégrations (awesome-vibecoding)"><circle cx="876.5" cy="124.0" r="11" fill="#0EA5C6"/></a>
+<a class="dot" href="#r-b-20" data-label="GitHub MCP, Contexte et intégrations (awesome-vibecoding)" style="--i:19" aria-label="GitHub MCP, Contexte et intégrations (awesome-vibecoding)"><circle cx="778.9" cy="347.3" r="11" fill="#0EA5C6"/></a>
+<a class="dot" href="#r-b-21" data-label="Neon, Contexte et intégrations (awesome-vibecoding)" style="--i:20" aria-label="Neon, Contexte et intégrations (awesome-vibecoding)"><circle cx="698.0" cy="110.7" r="11" fill="#0EA5C6"/></a>
+<a class="dot" href="#r-b-22" data-label="Notion MCP, Contexte et intégrations (awesome-vibecoding)" style="--i:21" aria-label="Notion MCP, Contexte et intégrations (awesome-vibecoding)"><circle cx="922.9" cy="233.5" r="11" fill="#0EA5C6"/></a>
+<a class="dot" href="#r-b-23" data-label="OpenSpec, Contexte et intégrations (awesome-vibecoding)" style="--i:22" aria-label="OpenSpec, Contexte et intégrations (awesome-vibecoding)"><circle cx="668.2" cy="296.3" r="11" fill="#0EA5C6"/></a>
+<a class="dot" href="#r-b-24" data-label="Supabase MCP, Contexte et intégrations (awesome-vibecoding)" style="--i:23" aria-label="Supabase MCP, Contexte et intégrations (awesome-vibecoding)"><circle cx="816.9" cy="73.1" r="11" fill="#0EA5C6"/></a>
+<a class="dot" href="#r-b-25" data-label="Agent QA, Tests, revue et sécurité (awesome-vibecoding)" style="--i:24" aria-label="Agent QA, Tests, revue et sécurité (awesome-vibecoding)"><circle cx="858.8" cy="343.8" r="11" fill="#14B8A6"/></a>
+<a class="dot" href="#r-b-26" data-label="Playwright MCP (Microsoft), Tests, revue et sécurité (awesome-vibecoding)" style="--i:25" aria-label="Playwright MCP (Microsoft), Tests, revue et sécurité (awesome-vibecoding)"><circle cx="640.7" cy="169.0" r="11" fill="#14B8A6"/></a>
+<a class="dot" href="#r-b-27" data-label="PR-Agent, Tests, revue et sécurité (awesome-vibecoding)" style="--i:26" aria-label="PR-Agent, Tests, revue et sécurité (awesome-vibecoding)"><circle cx="925.2" cy="150.2" r="11" fill="#14B8A6"/></a>
+<a class="dot" href="#r-b-28" data-label="Prbl, Tests, revue et sécurité (awesome-vibecoding)" style="--i:27" aria-label="Prbl, Tests, revue et sécurité (awesome-vibecoding)"><circle cx="724.3" cy="360.1" r="11" fill="#14B8A6"/></a>
+<a class="dot" href="#r-b-29" data-label="Qodo, Tests, revue et sécurité (awesome-vibecoding)" style="--i:28" aria-label="Qodo, Tests, revue et sécurité (awesome-vibecoding)"><circle cx="730.8" cy="64.3" r="11" fill="#14B8A6"/></a>
+<a class="dot" href="#r-b-30" data-label="Semgrep MCP, Tests, revue et sécurité (awesome-vibecoding)" style="--i:29" aria-label="Semgrep MCP, Tests, revue et sécurité (awesome-vibecoding)"><circle cx="929.2" cy="290.8" r="11" fill="#14B8A6"/></a>
+<a class="dot" href="#r-b-31" data-label="Sentry, Tests, revue et sécurité (awesome-vibecoding)" style="--i:30" aria-label="Sentry, Tests, revue et sécurité (awesome-vibecoding)"><circle cx="624.8" cy="257.2" r="11" fill="#14B8A6"/></a>
+<a class="dot" href="#r-b-32" data-label="Cloudflare, Déploiement et exécution (awesome-vibecoding)" style="--i:31" aria-label="Cloudflare, Déploiement et exécution (awesome-vibecoding)"><circle cx="876.1" cy="73.4" r="11" fill="#0F766E"/></a>
+<a class="dot" href="#r-b-33" data-label="E2B, Déploiement et exécution (awesome-vibecoding)" style="--i:32" aria-label="E2B, Déploiement et exécution (awesome-vibecoding)"><circle cx="814.0" cy="383.6" r="11" fill="#0F766E"/></a>
+<a class="dot" href="#r-b-34" data-label="Publish.my, Déploiement et exécution (awesome-vibecoding)" style="--i:33" aria-label="Publish.my, Déploiement et exécution (awesome-vibecoding)"><circle cx="647.7" cy="108.7" r="11" fill="#0F766E"/></a>
+<a class="dot" href="#r-b-35" data-label="XcodeBuildMCP, Déploiement et exécution (awesome-vibecoding)" style="--i:34" aria-label="XcodeBuildMCP, Déploiement et exécution (awesome-vibecoding)"><circle cx="960.6" cy="200.5" r="11" fill="#0F766E"/></a>
+<a class="dot" href="#r-b-36" data-label="Delta (Zed), Espaces de travail pour agents (awesome-vibecoding)" style="--i:35" aria-label="Delta (Zed), Espaces de travail pour agents (awesome-vibecoding)"><circle cx="663.6" cy="346.2" r="11" fill="#6C8CF5"/></a>
+<a class="dot" href="#r-b-37" data-label="Duckweed, Espaces de travail pour agents (awesome-vibecoding)" style="--i:36" aria-label="Duckweed, Espaces de travail pour agents (awesome-vibecoding)"><circle cx="785.9" cy="33.8" r="11" fill="#6C8CF5"/></a>
+<a class="dot" href="#r-b-38" data-label="llm.log, Espaces de travail pour agents (awesome-vibecoding)" style="--i:37" aria-label="llm.log, Espaces de travail pour agents (awesome-vibecoding)"><circle cx="908.4" cy="351.1" r="11" fill="#6C8CF5"/></a>
+<a class="dot" href="#r-b-39" data-label="Parallel Code, Espaces de travail pour agents (awesome-vibecoding)" style="--i:38" aria-label="Parallel Code, Espaces de travail pour agents (awesome-vibecoding)"><circle cx="599.6" cy="197.8" r="11" fill="#6C8CF5"/></a>
+<a class="dot" href="#r-b-40" data-label="Shep, Espaces de travail pour agents (awesome-vibecoding)" style="--i:39" aria-label="Shep, Espaces de travail pour agents (awesome-vibecoding)"><circle cx="935.2" cy="101.0" r="11" fill="#6C8CF5"/></a>
+<a class="dot" href="#r-b-41" data-label="Superagent, Espaces de travail pour agents (awesome-vibecoding)" style="--i:40" aria-label="Superagent, Espaces de travail pour agents (awesome-vibecoding)"><circle cx="750.8" cy="402.8" r="11" fill="#6C8CF5"/></a>
+<a class="dot" href="#r-b-42" data-label="usage, Espaces de travail pour agents (awesome-vibecoding)" style="--i:41" aria-label="usage, Espaces de travail pour agents (awesome-vibecoding)"><circle cx="682.1" cy="51.4" r="11" fill="#6C8CF5"/></a>
+<a class="dot" href="#r-b-43" data-label="Warp Terminal, Espaces de travail pour agents (awesome-vibecoding)" style="--i:42" aria-label="Warp Terminal, Espaces de travail pour agents (awesome-vibecoding)"><circle cx="973.6" cy="266.7" r="11" fill="#6C8CF5"/></a>
+        </svg>
+        <div class="gap-label">Aucun outil en commun</div>
+      </div>
+      <div class="legend">
+        <span>Post X<small>25 ressources</small></span>
+        <span></span>
+        <span>awesome-vibecoding<small>43 outils</small></span>
+      </div>
+      <p class="caption" id="caption">Passez sur un point pour voir l'outil, cliquez pour aller à sa ligne.</p>
+    </section>
+
+    <section class="findings" aria-labelledby="constats">
+      <h2 id="constats">Ce que montre la comparaison</h2>
+      <div class="findings-grid">
+        <article>
+          <h3>Aucun outil en commun</h3>
+          <p>Aucun des 25 noms du post n'apparaît dans le dépôt, ni dans son README ni dans son catalogue étendu.</p>
+        </article>
+        <article>
+          <h3>Deux sujets différents</h3>
+          <p>Le post liste des ressources de design et d'interface : galeries d'inspiration, composants, effets d'animation, à donner en référence à un agent de code. Le dépôt liste les agents de code eux-mêmes, avec les outils de contexte, de test et de déploiement. Un même projet peut avoir besoin des deux.</p>
+        </article>
+        <article>
+          <h3>Le n° 1 du post est le produit de son auteur</h3>
+          <p>Himanshu Hingorani se présente comme fondateur de scrollslide.co. C'est l'entrée la plus détaillée de la liste, et sa première réponse dans le fil invite à n'ouvrir que celle-là. Le post fait autant de publicité que d'inventaire.</p>
+        </article>
+        <article>
+          <h3>Des preuves inégales</h3>
+          <p>Le post ne donne ni date de vérification ni conditions d'accès, et rien n'indique que les outils aient été testés. Le dépôt date chaque vérification, indique ce qui est gratuit ou payant et écarte les produits abandonnés.</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="toolbar" role="search">
+      <div class="tb-row">
+        <label class="search"><span class="sr">Chercher un outil</span><input id="q" type="search" placeholder="Chercher un outil ou une catégorie" autocomplete="off"></label>
+        <div id="sources" class="seg" role="group" aria-label="Source">
+          <button type="button" data-value="all" aria-pressed="true">Les deux</button>
+          <button type="button" data-value="a" aria-pressed="false">Post X</button>
+          <button type="button" data-value="b" aria-pressed="false">awesome-vibecoding</button>
+        </div>
+      </div>
+      <div id="chips" class="chips" role="group" aria-label="Catégories"></div>
+      <p id="count" class="count" aria-live="polite"></p>
+    </div>
+
+    <div id="liste">
+      <section class="src" id="src-a" data-source="a" aria-labelledby="h-a">
+        <div class="src-head">
+          <h2 id="h-a">Le post X<span class="n">25</span></h2>
+          <p>Himanshu Hingorani, 9 octobre 2026, « 25 vibe coding resources ». Relevé à la main sur une capture d'écran de faible résolution : les adresses sont celles lues sur l'image et je ne les ai pas ouvertes. Les catégories sont une classification de ma part, absente du post.</p>
+        </div>
+        <ul class="rows">
+<li class="row" id="r-a-1" data-source="a" data-cat="Prompts et code" data-tone="#F2A81D" style="--tone:#F2A81D"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://scrollslide.co" rel="noopener noreferrer">scrollslide.co</a></h3><p>Plus de 600 prompts et leur code source pour des sites en 3D ou pilotés par le défilement. À coller dans Claude, Cursor ou Lovable.</p></div><div class="meta"><span class="cat">Prompts et code</span><span>scrollslide.co</span><span class="faint">n° 1 dans le post</span></div></li>
+<li class="row" id="r-a-2" data-source="a" data-cat="Inspiration" data-tone="#D6245B" style="--tone:#D6245B"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://minimal.gallery" rel="noopener noreferrer">Minimal Gallery</a></h3><p>Sites haut de gamme sélectionnés, à donner en référence à l&#x27;agent.</p></div><div class="meta"><span class="cat">Inspiration</span><span>minimal.gallery</span><span class="faint">n° 2 dans le post</span></div></li>
+<li class="row" id="r-a-3" data-source="a" data-cat="Inspiration" data-tone="#D6245B" style="--tone:#D6245B"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://godly.website" rel="noopener noreferrer">Godly</a></h3><p>Sites choisis à la main pour la qualité de leur réalisation.</p></div><div class="meta"><span class="cat">Inspiration</span><span>godly.website</span><span class="faint">n° 3 dans le post</span></div></li>
+<li class="row" id="r-a-4" data-source="a" data-cat="Inspiration" data-tone="#D6245B" style="--tone:#D6245B"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://styles.refero.design" rel="noopener noreferrer">Refero Styles</a></h3><p>Plus de 2 000 styles de produits réels, avec leur typographie.</p></div><div class="meta"><span class="cat">Inspiration</span><span>styles.refero.design</span><span class="faint">n° 4 dans le post</span></div></li>
+<li class="row" id="r-a-5" data-source="a" data-cat="Composants" data-tone="#EC4A3A" style="--tone:#EC4A3A"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://component.gallery" rel="noopener noreferrer">Component Gallery</a></h3><p>Plus de 2 600 exemples de la façon dont les grands design systems traitent un même élément.</p></div><div class="meta"><span class="cat">Composants</span><span>component.gallery</span><span class="faint">n° 5 dans le post</span></div></li>
+<li class="row" id="r-a-6" data-source="a" data-cat="Inspiration" data-tone="#D6245B" style="--tone:#D6245B"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://mobbin.com" rel="noopener noreferrer">Mobbin</a></h3><p>Parcours d&#x27;applications réelles, issus de vrais produits.</p></div><div class="meta"><span class="cat">Inspiration</span><span>mobbin.com</span><span class="faint">n° 6 dans le post</span></div></li>
+<li class="row" id="r-a-7" data-source="a" data-cat="Design systems" data-tone="#B8328F" style="--tone:#B8328F"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://designmd.ai" rel="noopener noreferrer">DESIGNmd</a></h3><p>Design systems au format markdown, lisibles par un agent.</p></div><div class="meta"><span class="cat">Design systems</span><span>designmd.ai</span><span class="faint">n° 7 dans le post</span></div></li>
+<li class="row" id="r-a-8" data-source="a" data-cat="Prompts et code" data-tone="#F2A81D" style="--tone:#F2A81D"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://vibeprompts.dev" rel="noopener noreferrer">VibePrompt</a></h3><p>Prompts prêts à l&#x27;emploi pour tableaux de bord et pages d&#x27;atterrissage.</p></div><div class="meta"><span class="cat">Prompts et code</span><span>vibeprompts.dev</span><span class="faint">n° 8 dans le post</span></div></li>
+<li class="row" id="r-a-9" data-source="a" data-cat="Composants" data-tone="#EC4A3A" style="--tone:#EC4A3A"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://21st.dev" rel="noopener noreferrer">21st.dev</a></h3><p>Registre de composants qui se branche aux agents via MCP.</p></div><div class="meta"><span class="cat">Composants</span><span>21st.dev</span><span class="faint">n° 9 dans le post</span></div></li>
+<li class="row" id="r-a-10" data-source="a" data-cat="Animation" data-tone="#F2742C" style="--tone:#F2742C"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://kinetics.colorion.co" rel="noopener noreferrer">Kinetics</a></h3><p>Plus de 150 effets de mouvement avec code React et prompts.</p></div><div class="meta"><span class="cat">Animation</span><span>kinetics.colorion.co</span><span class="faint">n° 10 dans le post</span></div></li>
+<li class="row" id="r-a-11" data-source="a" data-cat="Composants" data-tone="#EC4A3A" style="--tone:#EC4A3A"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://ui.shadcn.com" rel="noopener noreferrer">shadcn/ui</a></h3><p>Présenté comme la référence pour une interface propre et réutilisable.</p></div><div class="meta"><span class="cat">Composants</span><span>ui.shadcn.com</span><span class="faint">n° 11 dans le post</span></div></li>
+<li class="row" id="r-a-12" data-source="a" data-cat="Composants" data-tone="#EC4A3A" style="--tone:#EC4A3A"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://ui.aceternity.com" rel="noopener noreferrer">Aceternity UI</a></h3><p>Plus de 200 composants React/Tailwind animés.</p></div><div class="meta"><span class="cat">Composants</span><span>ui.aceternity.com</span><span class="faint">n° 12 dans le post</span></div></li>
+<li class="row" id="r-a-13" data-source="a" data-cat="Composants" data-tone="#EC4A3A" style="--tone:#EC4A3A"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://magicui.design" rel="noopener noreferrer">Magic UI</a></h3><p>Composants soignés pour applications web modernes.</p></div><div class="meta"><span class="cat">Composants</span><span>magicui.design</span><span class="faint">n° 13 dans le post</span></div></li>
+<li class="row" id="r-a-14" data-source="a" data-cat="Animation" data-tone="#F2742C" style="--tone:#F2742C"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://motion-primitives.com" rel="noopener noreferrer">Motion Primitives</a></h3><p>Composants d&#x27;animation et d&#x27;interaction prêts à l&#x27;emploi.</p></div><div class="meta"><span class="cat">Animation</span><span>motion-primitives.com</span><span class="faint">n° 14 dans le post</span></div></li>
+<li class="row" id="r-a-15" data-source="a" data-cat="Composants" data-tone="#EC4A3A" style="--tone:#EC4A3A"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://uiverse.io" rel="noopener noreferrer">Uiverse</a></h3><p>Éléments d&#x27;interface proposés par la communauté.</p></div><div class="meta"><span class="cat">Composants</span><span>uiverse.io</span><span class="faint">n° 15 dans le post</span></div></li>
+<li class="row" id="r-a-16" data-source="a" data-cat="Composants" data-tone="#EC4A3A" style="--tone:#EC4A3A"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://shadcnblocks.com" rel="noopener noreferrer">Shadcnblocks</a></h3><p>Blocs complets, pas seulement des boutons.</p></div><div class="meta"><span class="cat">Composants</span><span>shadcnblocks.com</span><span class="faint">n° 16 dans le post</span></div></li>
+<li class="row" id="r-a-17" data-source="a" data-cat="Composants" data-tone="#EC4A3A" style="--tone:#EC4A3A"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://mapcn.dev" rel="noopener noreferrer">mapcn</a></h3><p>Composants de carte : marqueurs, itinéraires, fenêtres contextuelles.</p></div><div class="meta"><span class="cat">Composants</span><span>mapcn.dev</span><span class="faint">n° 17 dans le post</span></div></li>
+<li class="row" id="r-a-18" data-source="a" data-cat="Inspiration" data-tone="#D6245B" style="--tone:#D6245B"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://awwwards.com" rel="noopener noreferrer">Awwwards</a></h3><p>Les sites qui ont réellement remporté un prix.</p></div><div class="meta"><span class="cat">Inspiration</span><span>awwwards.com</span><span class="faint">n° 18 dans le post</span></div></li>
+<li class="row" id="r-a-19" data-source="a" data-cat="Animation" data-tone="#F2742C" style="--tone:#F2742C"><span class="pip" aria-hidden="true"></span><div class="main"><h3>Liquid Glass</h3><p>Composants et effets de réfraction façon verre.</p></div><div class="meta"><span class="cat">Animation</span><span>adresse illisible sur la capture</span><span class="faint">n° 19 dans le post</span></div></li>
+<li class="row" id="r-a-20" data-source="a" data-cat="Animation" data-tone="#F2742C" style="--tone:#F2742C"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://text-effects.colorion.co" rel="noopener noreferrer">CSS Text Effects</a></h3><p>Animations et effets de texte en CSS.</p></div><div class="meta"><span class="cat">Animation</span><span>text-effects.colorion.co</span><span class="faint">n° 20 dans le post</span></div></li>
+<li class="row" id="r-a-21" data-source="a" data-cat="Animation" data-tone="#F2742C" style="--tone:#F2742C"><span class="pip" aria-hidden="true"></span><div class="main"><h3>Circle Loaders</h3><p>Animations de chargement.</p></div><div class="meta"><span class="cat">Animation</span><span>adresse illisible sur la capture</span><span class="faint">n° 21 dans le post</span></div></li>
+<li class="row" id="r-a-22" data-source="a" data-cat="Composants" data-tone="#EC4A3A" style="--tone:#EC4A3A"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://gradientbuttons.colorion.co" rel="noopener noreferrer">Gradient Buttons</a></h3><p>Styles et effets de boutons en dégradé.</p></div><div class="meta"><span class="cat">Composants</span><span>gradientbuttons.colorion.co</span><span class="faint">n° 22 dans le post</span></div></li>
+<li class="row" id="r-a-23" data-source="a" data-cat="Animation" data-tone="#F2742C" style="--tone:#F2742C"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://shaderboy.com" rel="noopener noreferrer">Shaderboy</a></h3><p>Shaders à étudier et à remixer.</p></div><div class="meta"><span class="cat">Animation</span><span>shaderboy.com</span><span class="faint">n° 23 dans le post</span></div></li>
+<li class="row" id="r-a-24" data-source="a" data-cat="Ressources graphiques" data-tone="#E85D9A" style="--tone:#E85D9A"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://3dicons.co" rel="noopener noreferrer">3Dicons</a></h3><p>Bibliothèque d&#x27;icônes 3D gratuites.</p></div><div class="meta"><span class="cat">Ressources graphiques</span><span>3dicons.co</span><span class="faint">n° 24 dans le post</span></div></li>
+<li class="row" id="r-a-25" data-source="a" data-cat="Animation" data-tone="#F2742C" style="--tone:#F2742C"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://animejs.com" rel="noopener noreferrer">Anime.js</a></h3><p>Bibliothèque JavaScript légère pour animer le web.</p></div><div class="meta"><span class="cat">Animation</span><span>animejs.com</span><span class="faint">n° 25 dans le post</span></div></li>
+        </ul>
+      </section>
+
+      <section class="src" id="src-b" data-source="b" aria-labelledby="h-b">
+        <div class="src-head">
+          <h2 id="h-b">awesome-vibecoding<span class="n">43</span></h2>
+          <p>Sélection principale du README français, vérifiée par le dépôt, pour la plupart des entrées au 18 septembre 2026. « Vérifier le prix » signifie que le dépôt n'a pas relu le tarif actuel. Les étiquettes CLI, IDE, Web, Desktop et MCP décrivent la façon d'utiliser l'outil, pas sa qualité.</p>
+        </div>
+        <ul class="rows">
+<li class="row" id="r-b-1" data-source="b" data-cat="Code et édition" data-tone="#1E40AF" style="--tone:#1E40AF"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/Aider-AI/aider" rel="noopener noreferrer">Aider</a> <span class="tag">CLI</span></h3><p>Pair programming en terminal avec des modèles cloud ou locaux et une intégration Git</p></div><div class="meta"><span class="cat">Code et édition</span><span>Client open source. Coûts d&#x27;API ou de modèle local</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-2" data-source="b" data-cat="Code et édition" data-tone="#1E40AF" style="--tone:#1E40AF"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://code.claude.com/docs/en/overview" rel="noopener noreferrer">Claude Code</a> <span class="tag">CLI</span></h3><p>Assistant de code agentique avec workflows en terminal et par projet</p></div><div class="meta"><span class="cat">Code et édition</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-3" data-source="b" data-cat="Code et édition" data-tone="#1E40AF" style="--tone:#1E40AF"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/cline/cline" rel="noopener noreferrer">Cline</a></h3><p>Agent de code pour IDE, terminal et desktop, avec outils fichiers, commandes et navigateur</p></div><div class="meta"><span class="cat">Code et édition</span><span>Client plus fournisseur de modèle. Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-4" data-source="b" data-cat="Code et édition" data-tone="#1E40AF" style="--tone:#1E40AF"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://www.cursor.com/" rel="noopener noreferrer">Cursor</a> <span class="tag">IDE</span></h3><p>Éditeur et agent de code pour l&#x27;implémentation, le débogage et la revue de code</p></div><div class="meta"><span class="cat">Code et édition</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-5" data-source="b" data-cat="Code et édition" data-tone="#1E40AF" style="--tone:#1E40AF"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/google-gemini/gemini-cli" rel="noopener noreferrer">Gemini CLI</a> <span class="tag">CLI</span></h3><p>Agent de code open source en terminal avec accès par clé API, Vertex ou offre entreprise éligible. L&#x27;accès par abonnement grand public est retiré</p></div><div class="meta"><span class="cat">Code et édition</span><span>API/Vertex ou entreprise éligible. Pas de voie grand public</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-6" data-source="b" data-cat="Code et édition" data-tone="#1E40AF" style="--tone:#1E40AF"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/features/copilot" rel="noopener noreferrer">GitHub Copilot</a></h3><p>Assistance au code et workflows d&#x27;agents dans GitHub et les IDE compatibles</p></div><div class="meta"><span class="cat">Code et édition</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-7" data-source="b" data-cat="Code et édition" data-tone="#1E40AF" style="--tone:#1E40AF"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/aaif-goose/goose" rel="noopener noreferrer">Goose</a> <span class="tag">CLI</span></h3><p>Agent local extensible avec workflows de code, interfaces desktop et CLI, et outils MCP</p></div><div class="meta"><span class="cat">Code et édition</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-8" data-source="b" data-cat="Code et édition" data-tone="#1E40AF" style="--tone:#1E40AF"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://kiro.dev" rel="noopener noreferrer">Kiro</a> <span class="tag">IDE</span></h3><p>Agent de code AWS avec workflows IDE et CLI, spécifications et tests</p></div><div class="meta"><span class="cat">Code et édition</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-9" data-source="b" data-cat="Code et édition" data-tone="#1E40AF" style="--tone:#1E40AF"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://openai.com/codex/" rel="noopener noreferrer">OpenAI Codex CLI</a> <span class="tag">CLI</span></h3><p>Agent de code OpenAI qui s&#x27;exécute localement dans le terminal</p></div><div class="meta"><span class="cat">Code et édition</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-10" data-source="b" data-cat="Code et édition" data-tone="#1E40AF" style="--tone:#1E40AF"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/earendil-works/pi" rel="noopener noreferrer">Pi</a> <span class="tag">CLI</span></h3><p>Agent de code en terminal, extensible et intégrable comme harnais</p></div><div class="meta"><span class="cat">Code et édition</span><span>Client MIT. Conditions du modèle et du fournisseur séparées</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-11" data-source="b" data-cat="Prototypage d&#x27;applications" data-tone="#2F6FED" style="--tone:#2F6FED"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://bolt.new/" rel="noopener noreferrer">Bolt.new</a> <span class="tag">Web</span></h3><p>Création d&#x27;applications en langage naturel, par StackBlitz</p></div><div class="meta"><span class="cat">Prototypage d&#x27;applications</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-12" data-source="b" data-cat="Prototypage d&#x27;applications" data-tone="#2F6FED" style="--tone:#2F6FED"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/dyad-sh/dyad" rel="noopener noreferrer">Dyad</a> <span class="tag">Desktop</span></h3><p>Créer des applications en local avec des fournisseurs de modèles configurables</p></div><div class="meta"><span class="cat">Prototypage d&#x27;applications</span><span>Vérifier le prix. Application desktop locale, coûts du fournisseur de modèle</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-13" data-source="b" data-cat="Prototypage d&#x27;applications" data-tone="#2F6FED" style="--tone:#2F6FED"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://lovable.dev/" rel="noopener noreferrer">Lovable</a> <span class="tag">Web</span></h3><p>Génération d&#x27;applications full-stack avec Supabase</p></div><div class="meta"><span class="cat">Prototypage d&#x27;applications</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-14" data-source="b" data-cat="Prototypage d&#x27;applications" data-tone="#2F6FED" style="--tone:#2F6FED"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://www.onlook.com/" rel="noopener noreferrer">Onlook</a> <span class="tag">Web</span></h3><p>Modifier visuellement les interfaces d&#x27;une application tout en travaillant sur le code</p></div><div class="meta"><span class="cat">Prototypage d&#x27;applications</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-15" data-source="b" data-cat="Prototypage d&#x27;applications" data-tone="#2F6FED" style="--tone:#2F6FED"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://replit.com/" rel="noopener noreferrer">Replit</a> <span class="tag">Web</span></h3><p>Créer et itérer sur des applications avec Replit Agent</p></div><div class="meta"><span class="cat">Prototypage d&#x27;applications</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-16" data-source="b" data-cat="Prototypage d&#x27;applications" data-tone="#2F6FED" style="--tone:#2F6FED"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://v0.app/" rel="noopener noreferrer">v0</a> <span class="tag">Web</span></h3><p>L&#x27;IA de Vercel pour générer des UI et du React</p></div><div class="meta"><span class="cat">Prototypage d&#x27;applications</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-17" data-source="b" data-cat="Contexte et intégrations" data-tone="#0EA5C6" style="--tone:#0EA5C6"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/caliber-ai-org/ai-setup" rel="noopener noreferrer">Caliber</a></h3><p>CLI qui génère et synchronise les configurations d&#x27;agents IA pour Claude Code, Cursor et Codex</p></div><div class="meta"><span class="cat">Contexte et intégrations</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-18" data-source="b" data-cat="Contexte et intégrations" data-tone="#0EA5C6" style="--tone:#0EA5C6"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/upstash/context7" rel="noopener noreferrer">Context7</a> <span class="tag">MCP</span></h3><p>Récupérer la documentation des bibliothèques comme contexte de code</p></div><div class="meta"><span class="cat">Contexte et intégrations</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-19" data-source="b" data-cat="Contexte et intégrations" data-tone="#0EA5C6" style="--tone:#0EA5C6"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem" rel="noopener noreferrer">Filesystem MCP</a> <span class="tag">MCP</span></h3><p>Donner aux agents un accès contrôlé aux fichiers du projet</p></div><div class="meta"><span class="cat">Contexte et intégrations</span><span>Vérifier le prix. Implémentation de référence, sans garantie de production</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-20" data-source="b" data-cat="Contexte et intégrations" data-tone="#0EA5C6" style="--tone:#0EA5C6"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/github/github-mcp-server" rel="noopener noreferrer">GitHub MCP</a> <span class="tag">MCP</span></h3><p>Connecter les workflows de dépôts, d&#x27;issues et de pull requests</p></div><div class="meta"><span class="cat">Contexte et intégrations</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-21" data-source="b" data-cat="Contexte et intégrations" data-tone="#0EA5C6" style="--tone:#0EA5C6"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/neondatabase/mcp-server-neon" rel="noopener noreferrer">Neon</a> <span class="tag">MCP</span></h3><p>Connecter les workflows de développement aux bases de données Neon</p></div><div class="meta"><span class="cat">Contexte et intégrations</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-22" data-source="b" data-cat="Contexte et intégrations" data-tone="#0EA5C6" style="--tone:#0EA5C6"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://developers.notion.com/guides/mcp/overview" rel="noopener noreferrer">Notion MCP</a> <span class="tag">MCP</span></h3><p>MCP officiel hébergé pour chercher, lire et mettre à jour du contenu Notion</p></div><div class="meta"><span class="cat">Contexte et intégrations</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-23" data-source="b" data-cat="Contexte et intégrations" data-tone="#0EA5C6" style="--tone:#0EA5C6"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/Fission-AI/OpenSpec" rel="noopener noreferrer">OpenSpec</a></h3><p>Cadre de développement piloté par les spécifications pour assistants de code IA</p></div><div class="meta"><span class="cat">Contexte et intégrations</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-24" data-source="b" data-cat="Contexte et intégrations" data-tone="#0EA5C6" style="--tone:#0EA5C6"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/supabase/mcp" rel="noopener noreferrer">Supabase MCP</a> <span class="tag">MCP</span></h3><p>MCP officiel pour les schémas, requêtes et configurations de projet Supabase</p></div><div class="meta"><span class="cat">Contexte et intégrations</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-25" data-source="b" data-cat="Tests, revue et sécurité" data-tone="#14B8A6" style="--tone:#14B8A6"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/vostride/agent-qa" rel="noopener noreferrer">Agent QA</a> <span class="tag">MCP</span></h3><p>Écrire et exécuter des tests web et mobile en langage naturel</p></div><div class="meta"><span class="cat">Tests, revue et sécurité</span><span>FSL-1.1-ALv2. Source disponible avec restriction d&#x27;usage concurrent. Coûts de modèle</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-26" data-source="b" data-cat="Tests, revue et sécurité" data-tone="#14B8A6" style="--tone:#14B8A6"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/microsoft/playwright-mcp" rel="noopener noreferrer">Playwright MCP (Microsoft)</a> <span class="tag">MCP</span></h3><p>Automatisation officielle du navigateur par instantanés structurés des pages</p></div><div class="meta"><span class="cat">Tests, revue et sécurité</span><span>Client Apache-2.0. Conditions du modèle séparées</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-27" data-source="b" data-cat="Tests, revue et sécurité" data-tone="#14B8A6" style="--tone:#14B8A6"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/The-PR-Agent/pr-agent" rel="noopener noreferrer">PR-Agent</a></h3><p>Relecteur de pull requests maintenu par la communauté, distinct de Qodo</p></div><div class="meta"><span class="cat">Tests, revue et sécurité</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-28" data-source="b" data-cat="Tests, revue et sécurité" data-tone="#14B8A6" style="--tone:#14B8A6"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://getprbl.com" rel="noopener noreferrer">Prbl</a> <span class="tag">Web</span></h3><p>Scanner une application en ligne ou un dépôt pour trouver les failles fréquentes du code généré par IA. La GitHub Action commente les PR. Le correcteur Pro applique des corrections vérifiées</p></div><div class="meta"><span class="cat">Tests, revue et sécurité</span><span>Scan et GitHub Action gratuits. Offres payantes pour le correcteur et les dépôts privés. Python/JS/TS uniquement</span><span class="faint">Vérifié le 23/09/2026</span></div></li>
+<li class="row" id="r-b-29" data-source="b" data-cat="Tests, revue et sécurité" data-tone="#14B8A6" style="--tone:#14B8A6"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://www.qodo.ai" rel="noopener noreferrer">Qodo</a></h3><p>Moteur de revue de code par IA (anciennement CodiumAI)</p></div><div class="meta"><span class="cat">Tests, revue et sécurité</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-30" data-source="b" data-cat="Tests, revue et sécurité" data-tone="#14B8A6" style="--tone:#14B8A6"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/semgrep/semgrep/tree/develop/cli/src/semgrep/mcp" rel="noopener noreferrer">Semgrep MCP</a> <span class="tag">MCP</span></h3><p>Analyse de sécurité MCP via le CLI Semgrep maintenu</p></div><div class="meta"><span class="cat">Tests, revue et sécurité</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-31" data-source="b" data-cat="Tests, revue et sécurité" data-tone="#14B8A6" style="--tone:#14B8A6"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/getsentry/sentry-mcp" rel="noopener noreferrer">Sentry</a> <span class="tag">MCP</span></h3><p>Inspecter les erreurs d&#x27;application et diagnostiquer les échecs</p></div><div class="meta"><span class="cat">Tests, revue et sécurité</span><span>Functional Source License. Source disponible. Vérifier les conditions de l&#x27;offre hébergée</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-32" data-source="b" data-cat="Déploiement et exécution" data-tone="#0F766E" style="--tone:#0F766E"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/cloudflare/mcp-server-cloudflare" rel="noopener noreferrer">Cloudflare</a> <span class="tag">MCP</span></h3><p>Gérer le déploiement d&#x27;applications et les ressources cloud</p></div><div class="meta"><span class="cat">Déploiement et exécution</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-33" data-source="b" data-cat="Déploiement et exécution" data-tone="#0F766E" style="--tone:#0F766E"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/e2b-dev/E2B" rel="noopener noreferrer">E2B</a></h3><p>Sandbox cloud sécurisée pour agents IA de niveau entreprise</p></div><div class="meta"><span class="cat">Déploiement et exécution</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-34" data-source="b" data-cat="Déploiement et exécution" data-tone="#0F766E" style="--tone:#0F766E"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://publish.my/" rel="noopener noreferrer">Publish.my</a> <span class="tag">Web</span></h3><p>Publication de sites statiques pilotée par agents, avec activation par email</p></div><div class="meta"><span class="cat">Déploiement et exécution</span><span>Offre gratuite. Sites statiques uniquement. Activation par email</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-35" data-source="b" data-cat="Déploiement et exécution" data-tone="#0F766E" style="--tone:#0F766E"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/getsentry/XcodeBuildMCP" rel="noopener noreferrer">XcodeBuildMCP</a> <span class="tag">MCP</span></h3><p>Outils CLI et MCP pour compiler, exécuter et déboguer des projets Apple</p></div><div class="meta"><span class="cat">Déploiement et exécution</span><span>Vérifier le prix</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-36" data-source="b" data-cat="Espaces de travail pour agents" data-tone="#6C8CF5" style="--tone:#6C8CF5"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://delta.dev/" rel="noopener noreferrer">Delta (Zed)</a> <span class="tag">Desktop</span></h3><p>Lancer des fils d&#x27;agents et relire leurs changements dans un espace de travail multijoueur qui relie conversation et historique du code. Compatible avec les dépôts Git existants</p></div><div class="meta"><span class="cat">Espaces de travail pour agents</span><span>Gratuit pendant la bêta publique. Offres payantes prévues. Coûts de modèle séparés</span><span class="faint">Vérifié le 20/09/2026</span></div></li>
+<li class="row" id="r-b-37" data-source="b" data-cat="Espaces de travail pour agents" data-tone="#6C8CF5" style="--tone:#6C8CF5"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/MusicMaster4/Duckweed" rel="noopener noreferrer">Duckweed</a> <span class="tag">Desktop</span></h3><p>Exécuter agents de code, shells, diffs Git et sessions dans un espace de travail local multiplateforme</p></div><div class="meta"><span class="cat">Espaces de travail pour agents</span><span>Source disponible. Voir la licence. Coûts de modèle et de fournisseur séparés</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-38" data-source="b" data-cat="Espaces de travail pour agents" data-tone="#6C8CF5" style="--tone:#6C8CF5"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/lanesket/llm.log" rel="noopener noreferrer">llm.log</a></h3><p>Inspecter les coûts, tokens et traces de requêtes des modèles via un proxy local</p></div><div class="meta"><span class="cat">Espaces de travail pour agents</span><span>MIT. Coûts de modèle et de fournisseur séparés</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-39" data-source="b" data-cat="Espaces de travail pour agents" data-tone="#6C8CF5" style="--tone:#6C8CF5"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/johannesjo/parallel-code" rel="noopener noreferrer">Parallel Code</a> <span class="tag">Desktop</span></h3><p>Exécuter des agents de code dans des worktrees Git isolés et relire leurs changements</p></div><div class="meta"><span class="cat">Espaces de travail pour agents</span><span>MIT. Coûts de modèle et de fournisseur séparés</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-40" data-source="b" data-cat="Espaces de travail pour agents" data-tone="#6C8CF5" style="--tone:#6C8CF5"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/shep-ai/shep" rel="noopener noreferrer">Shep</a> <span class="tag">CLI</span></h3><p>Orchestrer des agents de code en parallèle dans des worktrees Git isolés, jusqu&#x27;au commit, au push, au suivi CI et aux brouillons de PR</p></div><div class="meta"><span class="cat">Espaces de travail pour agents</span><span>Client MIT. Abonnement d&#x27;agent ou coûts d&#x27;API séparés</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-41" data-source="b" data-cat="Espaces de travail pour agents" data-tone="#6C8CF5" style="--tone:#6C8CF5"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/pungme/superagent-desktop" rel="noopener noreferrer">Superagent</a> <span class="tag">Desktop</span></h3><p>Utiliser Claude Code ou Codex dans un espace de travail macOS avec outils navigateur et iOS</p></div><div class="meta"><span class="cat">Espaces de travail pour agents</span><span>MIT. macOS Apple Silicon. Abonnement au modèle séparé</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-42" data-source="b" data-cat="Espaces de travail pour agents" data-tone="#6C8CF5" style="--tone:#6C8CF5"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://github.com/aqua5230/usage" rel="noopener noreferrer">usage</a> <span class="tag">Desktop</span></h3><p>Voir les quotas des agents de code depuis la barre de menu macOS ou la zone de notification Windows</p></div><div class="meta"><span class="cat">Espaces de travail pour agents</span><span>AGPL-3.0. Coûts de modèle et de fournisseur séparés</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+<li class="row" id="r-b-43" data-source="b" data-cat="Espaces de travail pour agents" data-tone="#6C8CF5" style="--tone:#6C8CF5"><span class="pip" aria-hidden="true"></span><div class="main"><h3><a href="https://www.warp.dev/terminal" rel="noopener noreferrer">Warp Terminal</a></h3><p>Utiliser un terminal orienté agents et inspecter les workflows de code</p></div><div class="meta"><span class="cat">Espaces de travail pour agents</span><span>Téléchargement du terminal. Vérifier le prix de l&#x27;usage IA</span><span class="faint">Vérifié le 18/09/2026</span></div></li>
+        </ul>
+      </section>
+
+      <div class="empty" id="empty" hidden>
+        <h2>Aucun résultat</h2>
+        <p>Aucun outil ne correspond à cette recherche. Effacez le texte ou choisissez une autre catégorie.</p>
+        <button type="button" id="reset">Tout afficher</button>
+      </div>
+    </div>
+
+    <section class="limits" aria-labelledby="limites">
+      <h2 id="limites">Limites</h2>
+      <ul>
+        <li>La capture du post est longue et petite : deux adresses (Liquid Glass et Circle Loaders) n'ont pas pu être lues.</li>
+        <li>Aucun outil des deux listes n'a été essayé pour cette page.</li>
+        <li>Le dépôt contient aussi des guides et des articles de référence, que je n'ai pas repris ici parce qu'il ne s'agit pas d'outils.</li>
+      </ul>
+    </section>
+  </main>
+</div>
+<footer><div class="wrap">Relevé du 12 octobre 2026. Source B : <a href="https://github.com/Scap-Mehdi/awesome-vibecoding" rel="noopener noreferrer">github.com/Scap-Mehdi/awesome-vibecoding</a>.</div></footer>
+
+<script>
+(function () {
+  var doc = document, root = doc.documentElement;
+  root.classList.add('js');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Thème */
+  var themeBtn = doc.getElementById('theme');
+  function current() {
+    var t = root.getAttribute('data-theme');
+    if (t) return t;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  function paint() { themeBtn.textContent = current() === 'dark' ? 'Passer en clair' : 'Passer en sombre'; }
+  try { var saved = localStorage.getItem('outils-theme'); if (saved) root.setAttribute('data-theme', saved); } catch (err) {}
+  paint();
+  themeBtn.addEventListener('click', function () {
+    var next = current() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('outils-theme', next); } catch (err) {}
+    paint();
+  });
+
+  /* Filtres */
+  function norm(s) { return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+  var rows = [].slice.call(doc.querySelectorAll('.row'));
+  rows.forEach(function (r) { r._t = norm(r.textContent); });
+  var sections = [].slice.call(doc.querySelectorAll('.src'));
+  var state = { source: 'all', cat: 'all', q: '' };
+  var chipsEl = doc.getElementById('chips'), countEl = doc.getElementById('count'), emptyEl = doc.getElementById('empty');
+  var qEl = doc.getElementById('q'), srcBtns = [].slice.call(doc.querySelectorAll('#sources button'));
+
+  function catsFor(source) {
+    var seen = {}, list = [];
+    rows.forEach(function (r) {
+      if (source !== 'all' && r.dataset.source !== source) return;
+      var c = r.dataset.cat;
+      if (!seen[c]) { seen[c] = 1; list.push({ cat: c, tone: r.dataset.tone }); }
+    });
+    return list;
+  }
+  function addChip(value, label, tone) {
+    var b = doc.createElement('button');
+    b.type = 'button'; b.className = 'chip'; b.dataset.value = value;
+    if (tone) { var s = doc.createElement('span'); s.className = 'swatch'; s.style.background = tone; b.appendChild(s); }
+    b.appendChild(doc.createTextNode(label));
+    b.addEventListener('click', function () { state.cat = (state.cat === value) ? 'all' : value; apply(); });
+    chipsEl.appendChild(b);
+  }
+  function buildChips() {
+    chipsEl.innerHTML = '';
+    addChip('all', 'Toutes les catégories', null);
+    catsFor(state.source).forEach(function (o) { addChip(o.cat, o.cat, o.tone); });
+  }
+  function apply() {
+    var shown = 0, per = { a: 0, b: 0 };
+    rows.forEach(function (r) {
+      var ok = (state.source === 'all' || r.dataset.source === state.source) &&
+               (state.cat === 'all' || r.dataset.cat === state.cat) &&
+               (!state.q || r._t.indexOf(state.q) > -1);
+      r.hidden = !ok;
+      if (ok) { shown++; per[r.dataset.source]++; }
+    });
+    sections.forEach(function (s) {
+      var k = s.dataset.source, tot = s.querySelectorAll('.row').length;
+      s.hidden = per[k] === 0;
+      s.querySelector('.n').textContent = per[k] === tot ? String(tot) : per[k] + ' sur ' + tot;
+    });
+    srcBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.value === state.source)); });
+    [].forEach.call(chipsEl.children, function (c) { c.setAttribute('aria-pressed', String(c.dataset.value === state.cat)); });
+    countEl.textContent = shown + ' outil' + (shown > 1 ? 's' : '') + ' affiché' + (shown > 1 ? 's' : '') + ' sur ' + rows.length;
+    emptyEl.hidden = shown !== 0;
+  }
+  function reset() { state = { source: 'all', cat: 'all', q: '' }; qEl.value = ''; buildChips(); apply(); }
+
+  srcBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      state.source = b.dataset.value;
+      var ok = catsFor(state.source).some(function (o) { return o.cat === state.cat; });
+      if (!ok) state.cat = 'all';
+      buildChips(); apply();
+    });
+  });
+  qEl.addEventListener('input', function () { state.q = norm(qEl.value.trim()); apply(); });
+  doc.getElementById('reset').addEventListener('click', reset);
+  buildChips(); apply();
+
+  /* Points du nuage : légende au survol, saut vers la ligne au clic */
+  var caption = doc.getElementById('caption'), idle = caption.textContent;
+  [].forEach.call(doc.querySelectorAll('.dot'), function (d) {
+    function say() { caption.textContent = d.dataset.label; }
+    function clear() { caption.textContent = idle; }
+    d.addEventListener('mouseenter', say); d.addEventListener('focus', say);
+    d.addEventListener('mouseleave', clear); d.addEventListener('blur', clear);
+    d.addEventListener('click', function (ev) {
+      ev.preventDefault();
+      var row = doc.getElementById(d.getAttribute('href').slice(1));
+      if (!row) return;
+      if (row.hidden) reset();
+      row.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+      var link = row.querySelector('a');
+      if (link) link.focus({ preventScroll: true });
+      row.classList.add('flash');
+      setTimeout(function () { row.classList.remove('flash'); }, 1800);
+    });
+  });
+})();
+</script>
+</body>
+</html>
